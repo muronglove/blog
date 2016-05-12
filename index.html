@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>登录界面</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	<script src="http://cdn.gbtags.com/jquery/1.11.1/jquery.min.js"></script>
+   <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+   <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
+   <style type="text/css">
+   body{
+   	background-color: rgb(240,240,240);
+   	font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+   }
+   #header{
+   	text-align: center;
+   	display: inline;
+   	font-size:23px;
+   	font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+   }
+	.login-wrapper{
+		width: 30%;
+		margin-left:35%;
+		margin-top:100px;
+	}
+	form{
+		border-bottom:1px solid rgb(200,200,200);
+		padding-bottom: 30px;
+		margin-bottom:20px;
+	}
+	#zhuce{
+		background-color: rgb(240,240,240);
+		border:1px solid rgb(200,200,200);
+		width:80px;
+		margin-top: -6px;
+		float:right;
+	}
+	#zhuce:hover{
+		background-color:rgb(200,200,200);
+	}
+	p{
+		text-align: center
+	}
+	#denglu{
+		margin-top:20px;
+	}
+	#image{
+		width:40%;
+		border-right:3px solid rgb(200,200,200);
+		padding-right:15px;
+		margin-right:15px;
+	}
+	#lala {
+		width:100%;
+	}
+	#lala a{
+		margin-top:10px;
+		text-decoration: none;
+	}
+
+   </style>
+</head>
+<body>
+
+
+
+<div class="login-wrapper">
+      <div id="header"><img id="image" src="images/redant.png">论文格式检测系统</div>
+      <form action="#">
+        <div class="form-group">
+          <div class="input-group" style="margin-top: 30px;">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span><input id="user" data-container="body" data-toggle="popover" data-placement="right" data-content="您的学号格式不对哦~" data-trigger="manual" class="form-control" placeholder="学号" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span><input id="pwd2" data-container="body" data-toggle="popover" data-placement="right" data-content="这里不可以空着哦~" data-trigger="manual" class="form-control" placeholder="密码" type="password">
+          </div>
+        </div>
+		<div id="lala">
+        <span class="text-left" style="margin-left: 20px;display: inline-block;">
+          <label class="checkbox"><input id="ck_rmbUser" type="checkbox"><span>自动登录</span></label>
+        </span>
+        <a class="pull-right" href="#">忘记密码了？</a>
+		</div>
+        <input id="denglu" class="btn btn-lg btn-primary btn-block" type="button" value="登录">
+      </form>
+      <span style="float:left;">
+         还没有账户？
+      </span>
+      <a id="zhuce" class="btn btn-default-outline btn-block" href="register.html">立即注册</a>
+    </div>
+
+
+
+        <script type="text/javascript">
+    	$(document).ready(function(){
+    			if ($.cookie("rmbUser") == "true") {  
+        $("#ck_rmbUser").attr("checked", true);  
+        $("#user").val($.cookie("username"));  
+        $("#pwd2").val($.cookie("password"));  
+        } 
+
+
+
+
+
+
+    		$('#user').bind('input',function(){
+    if($('#user').val().length!=9||!$.isNumeric($('#user').val()))
+    {
+      $('#user').popover('show');
+    }
+    else
+    {
+      $('#user').popover('hide');
+    }
+  });
+    		$('#pwd2').bind('input',function(){
+    if($('#pwd2').val().length==0)
+    {
+      $('#pwd2').popover('show');
+    }
+    else
+    {
+      $('#pwd2').popover('hide');
+    }
+  });
+
+    		$('#denglu').click(function(){
+    			if(($('#user').val().length!=9||!$.isNumeric($('#user').val())||$('#pwd2').val().length==0))
+          {
+            alert('您输入的信息有误！');
+            return;
+          }
+
+          if ($("#ck_rmbUser").attr("checked")) {  
+            var str_username = $("#user").val();  
+            var str_password = $("#pwd2").val();  
+            $.cookie("rmbUser", "true", { expires: 7 }); //存储一个带7天期限的cookie  
+            $.cookie("username", str_username, { expires: 7 });  
+            $.cookie("password", str_password, { expires: 7 });  
+        }  
+        else {  
+            $.cookie("rmbUser", "false", { expire: -1 });  
+            $.cookie("username", "", { expires: -1 });  
+            $.cookie("password", "", { expires: -1 });  
+        }  
+
+
+    			$.ajax({
+    				type: 'get',
+    				url: '',
+    				data: {username:$('#user').val(),password:$('#pw2').val()},
+    				success:function(){
+    					//window.location.reload();
+         			},
+         			error:function(){
+            			alert("lalal");
+         			},
+    			});
+    		});
+
+
+    	});
+    </script>
+</body>
+</html>
